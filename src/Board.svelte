@@ -175,7 +175,7 @@
     grid-template-rows: repeat(4, 1fr);
     grid-column-gap: 0.5rem;
     grid-row-gap: 0.5rem;
-    background-color: rgb(3, 9, 78);
+    background-color: var(--mg);
     padding: 1rem;
     border-radius: 1rem;
   }
@@ -183,8 +183,8 @@
   .cell {
     width: 100%;
     height: 100%;
-    background-color: rgb(196, 198, 212);
-    color: rgb(31, 35, 76);
+    background-color: var(--cell);
+    color: var(--bg);
     text-transform: uppercase;
     font-size: 2em;
     font-weight: 800;
