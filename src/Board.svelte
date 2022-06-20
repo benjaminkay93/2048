@@ -72,53 +72,62 @@
     }
   }
 
+  const sortArray = array => {
+    var start = 0;
+    for (let index = 1; index < array.length; index++) {
+      const cell = array[index];
+      if (cell) {
+        const target = array[start];
+        if (!target || target === cell ) {
+          array[start] += cell ;
+          array[index] = 0;
+        } else if (start + 1 < index) {
+          index--;
+        }
+        if (target) { start++; }
+      }
+    }
+    return array;
+}
+
   const shiftUp = () => {
-    console.log('up')
-  }
-  const shiftDown = () => {
     COLUMNS.forEach(column => {
+      const array = column.map(cell => board[cell])
+      const sortedArray = sortArray(array)
       column.forEach((cell, index) => {
-        if (!board[cell]) return;
-        if (index === 3) return;
-        if (!board[column[index+1]]) {
-          board[column[index+1]] = board[cell]
-          board[cell] = 0
-          resetEmptyCells()
-          return
-        }
-        if (board[cell] === board[column[index+1]]) {
-          board[column[index+1]] = board[column[index+1]] *2
-          board[cell] = 0
-          resetEmptyCells()
-          return
-        }
+        board[cell] = sortedArray[index]
       })
     })
-    console.log('down')
+  }
+
+  const shiftDown = () => {
+    COLUMNS.forEach(column => {
+      const reversedColumn = [...column].reverse()
+      const array = reversedColumn.map(cell => board[cell])
+      const sortedArray = sortArray(array)
+      reversedColumn.forEach((cell, index) => {
+        board[cell] = sortedArray[index]
+      })
+    })
   }
   const shiftLeft = () => {
-    console.log('left')
+    ROWS.forEach(row => {
+      const array = row.map(cell => board[cell])
+      const sortedArray = sortArray(array)
+      row.forEach((cell, index) => {
+        board[cell] = sortedArray[index]
+      })
+    })
   }
   const shiftRight = () => {
     ROWS.forEach(row => {
-      row.forEach((cell, index) => {
-        if (!board[cell]) return;
-        if (index === 3) return;
-        if (!board[row[index+1]]) {
-          board[row[index+1]] = board[cell]
-          board[cell] = 0
-          resetEmptyCells()
-          return
-        }
-        if (board[cell] === board[row[index+1]]) {
-          board[row[index+1]] = board[row[index+1]] *2
-          board[cell] = 0
-          resetEmptyCells()
-          return
-        }
+      const reversedRow = [...row].reverse()
+      const array = reversedRow.map(cell => board[cell])
+      const sortedArray = sortArray(array)
+      reversedRow.forEach((cell, index) => {
+        board[cell] = sortedArray[index]
       })
     })
-    console.log('right')
   }
 
   const SHIFT_STRATEGY = {
@@ -133,6 +142,8 @@
     var code = event.code;
 
     SHIFT_STRATEGY[event.key]()
+    resetEmptyCells()
+
     placeNewNumber()
 
     console.log({name, code, countEmpty: countEmpty()})
