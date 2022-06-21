@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   const KEY_UP = 'ArrowUp'
   const KEY_DOWN = 'ArrowDown'
   const KEY_LEFT = 'ArrowLeft'
@@ -23,8 +23,8 @@
     15: 0,
   }
 
-  const COLUMNS = [[0,4,8,12],[1,5,9,13],[2,6,10,14],[3,7,11,15]]
-  const ROWS = [[0,1,2,3],[4,5,6,7],[8,9,10,11],[12,13,14,15]]
+  const COLUMNS: number[][] = [[0,4,8,12],[1,5,9,13],[2,6,10,14],[3,7,11,15]]
+  const ROWS: number[][] = [[0,1,2,3],[4,5,6,7],[8,9,10,11],[12,13,14,15]]
 
   export let board = {
     ...defaultBoard
@@ -32,22 +32,22 @@
 
   let emptyCells = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
 
-  const geneateNewPosition = (min, max) => { // min and max included 
+  const geneateNewPosition = (min:number, max: number): number => { // min and max included 
     return Math.floor(Math.random() * (max - min + 1) + min)
   }
 
   const countEmpty = () => {
-    return Object.values(board).reduce((acc, cell, index)=> {
+    return Object.values(board).reduce((acc, cell)=> {
       if(cell) return acc;
       return acc + 1
     }, 0)
   }
 
   const resetEmptyCells = () => {
-    let newEmptyCells = []
+    let newEmptyCells: number[] = []
     Object.keys(board).forEach(value => {
       if (board[value] === 0) {
-        newEmptyCells.push(value)
+        newEmptyCells.push(parseInt(value, 10))
       }
     })
     emptyCells = [...newEmptyCells]
@@ -56,7 +56,6 @@
   const resetBoard = () => {
     board = {...defaultBoard}
     resetEmptyCells()
-    console.log('reset', board, emptyCells)
   }
 
   const boardCount = 0;
