@@ -13,11 +13,11 @@
 	:root {
   	--light-bg: white;
   	--light-mg: rgb(3, 9, 78);
-		--light-text: rgb(3, 9, 78);;
+		--light-text: rgb(3, 9, 78);
 		--light-cell: rgb(196, 198, 212);
 
   	--dark-bg: rgb(3, 9, 78);
-  	--dark-mg: rgba(196, 198, 212, 0.3);
+  	--dark-mg: rgba(134, 142, 200, 0.3);
 		--dark-text: white;
 		--dark-cell: rgb(196, 198, 212);
 

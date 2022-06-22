@@ -136,17 +136,61 @@
     [KEY_RIGHT]: shiftRight,
   }
 
-  document.addEventListener('keydown', (event) => {
-    var name = event.key;
-    var code = event.code;
+  const play = (direction) => {
+    const oldBoard = {...board}
 
-    SHIFT_STRATEGY[event.key]()
+    SHIFT_STRATEGY[direction]()
     resetEmptyCells()
 
-    placeNewNumber()
+    console.log(JSON.stringify(oldBoard) !== JSON.stringify(board))
 
-    console.log({name, code, countEmpty: countEmpty()})
-  })
+    if(JSON.stringify(oldBoard) !== JSON.stringify(board) || emptyCells.length === 16) {
+      placeNewNumber()
+    }
+  }
+
+  let xDown = null;                                                        
+  let yDown = null;                                          
+                                                                          
+  const handleTouchStart = (event) => {
+      const firstTouch = event.touches[0];                                      
+      xDown = firstTouch.clientX;                                      
+      yDown = firstTouch.clientY;                                      
+  };                                                
+                                                                          
+  const handleTouchMove = (event) => {
+    if ( ! xDown || ! yDown ) {
+      return;
+    }
+    var xUp = event.touches[0].clientX;
+    var yUp = event.touches[0].clientY;
+    var xDiff = xDown - xUp;
+    var yDiff = yDown - yUp;
+    if ( Math.abs(xDiff) < 2 || Math.abs(yDiff) < 2) {
+      return;
+    }
+
+    xDown = null;
+    yDown = null;
+
+    if ( Math.abs(xDiff) > Math.abs(yDiff) ) {
+        if ( xDiff > 0 ) {
+          play(KEY_LEFT)
+          return
+        }
+        play(KEY_RIGHT)
+        return;
+    }
+    if ( yDiff > 0 ) {
+      play(KEY_UP)
+      return;
+    }
+    play(KEY_DOWN)
+  };
+
+  document.addEventListener('touchstart', handleTouchStart);        
+  document.addEventListener('touchmove', handleTouchMove);
+  document.addEventListener('keydown', (event) => play(event.key));
 </script>
   
 <section>
@@ -161,7 +205,7 @@
     {/if}
   {/each}
 </section>
-<button on:click={resetBoard}>Reset Board</button>
+<button class="reset-button" on:click={resetBoard}>Reset Board</button>
 
 <style>
   section {
@@ -239,7 +283,17 @@
     color: #f9f6f1;
   }
 
-
+  .reset-button {
+    margin-top: 16px;
+    height: 36px;
+    width: 200px;
+    border: 1px solid var(--cell);
+    border-radius: 18px;
+    padding: 8px;
+    background-color: var(--mg);
+    color: var(--cell);
+    font-weight: 700;
+  }
   
     
 </style>
