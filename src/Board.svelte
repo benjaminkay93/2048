@@ -166,7 +166,7 @@
     var yUp = event.touches[0].clientY;
     var xDiff = xDown - xUp;
     var yDiff = yDown - yUp;
-    if ( Math.abs(xDiff) < 2 || Math.abs(yDiff) < 2) {
+    if ( Math.abs(xDiff) < 1 || Math.abs(yDiff) < 1) {
       return;
     }
 
