@@ -25,6 +25,8 @@
 		--mg: var(--light-mg);
 		--text: var(--light-text);
 		--cell: var(--light-cell);
+
+		overflow: hidden;
 	}
 
 	@media (prefers-color-scheme: dark) {
